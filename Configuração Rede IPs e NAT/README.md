@@ -30,6 +30,8 @@
 
 Cada local está conectado a uma dessas interfaces.
 
+![Projeto da rede](ImagemRede.png)
+
 ---
 
 ## Configuração das Interfaces em RJO
