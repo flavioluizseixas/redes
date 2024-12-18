@@ -1,6 +1,6 @@
 
 
-# Cenário de Configuração: Sub-redes e Roteamento Estático
+# Cenário de Configuração: Sub-redes, Roteamento Estático e NAT
 
 ## Sub-redes Atribuídas
 
