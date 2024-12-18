@@ -4,16 +4,29 @@
 
 ## Sub-redes Atribuídas
 
-- **Rio de Janeiro:** `180.1.0.0/23`  
-- **São Paulo:** `180.1.2.0/24`  
-- **Curitiba:** `180.1.4.0/25`  
-- **Belo Horizonte:** `180.1.6.0/26`  
+- **Rio de Janeiro (RJO):** `180.1.0.0/23`  
+- **São Paulo (SPO):** `180.1.2.0/24`  
+- **Curitiba (CTA):** `180.1.4.0/25`  
+- **Belo Horizonte (BHE):** `180.1.6.0/26`  
 
 ## Interfaces no HWIC-2T
 
 - **Serial disponíveis:**  
-  - `Serial0/0/0`  
-  - `Serial0/0/1`  
+  - `Serial0/3/0`  -- BHE
+  - `Serial0/3/1`  
+
+- **Serial disponíveis:**  
+  - `Serial0/2/0`  -- CTA
+  - `Serial0/2/1`  
+
+- **Serial disponíveis:**  
+  - `Serial0/1/0`  -- SPO
+  - `Serial0/1/1`  
+
+## Interfaces GigaEthernet
+
+- `GigaEthernet0/0` -- RJO
+- `GigaEthernet0/1`
 
 Cada local está conectado a uma dessas interfaces.
 
@@ -26,7 +39,7 @@ Cada local está conectado a uma dessas interfaces.
 #### Interface para Rio de Janeiro
 ```plaintext
 configure terminal
-interface Serial0/0/0
+interface Gigaethernet0/0
 ip address 180.1.0.1 255.255.254.0
 no shutdown
 description Conexão com Rio de Janeiro
@@ -34,7 +47,7 @@ description Conexão com Rio de Janeiro
 
 #### Interface para São Paulo
 ```plaintext
-interface Serial0/0/1
+interface Serial0/1/0
 ip address 180.1.2.1 255.255.255.0
 no shutdown
 description Conexão com São Paulo
@@ -42,7 +55,7 @@ description Conexão com São Paulo
 
 #### Interface para Curitiba
 ```plaintext
-interface Serial0/1/0
+interface Serial0/2/0
 ip address 180.1.4.1 255.255.255.128
 no shutdown
 description Conexão com Curitiba
@@ -50,7 +63,7 @@ description Conexão com Curitiba
 
 #### Interface para Belo Horizonte
 ```plaintext
-interface Serial0/1/1
+interface Serial0/3/0
 ip address 180.1.6.1 255.255.255.192
 no shutdown
 description Conexão com Belo Horizonte
@@ -62,22 +75,22 @@ description Conexão com Belo Horizonte
 
 #### Rota para Rio de Janeiro (180.1.0.0/23)
 ```plaintext
-ip route 180.1.0.0 255.255.254.0 Serial0/0/0
+ip route 180.1.0.0 255.255.254.0 Gigaethernet0/0
 ```
 
 #### Rota para São Paulo (180.1.2.0/24)
 ```plaintext
-ip route 180.1.2.0 255.255.255.0 Serial0/0/1
+ip route 180.1.2.0 255.255.255.0 Serial0/1/0
 ```
 
 #### Rota para Curitiba (180.1.4.0/25)
 ```plaintext
-ip route 180.1.4.0 255.255.255.128 Serial0/1/0
+ip route 180.1.4.0 255.255.255.128 Serial0/2/0
 ```
 
 #### Rota para Belo Horizonte (180.1.6.0/26)
 ```plaintext
-ip route 180.1.6.0 255.255.255.192 Serial0/1/1
+ip route 180.1.6.0 255.255.255.192 Serial0/3/0
 ```
 
 ## Verificação e Salvar Configuração
