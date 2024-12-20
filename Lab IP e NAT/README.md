@@ -155,11 +155,17 @@ access-list 1 permit 192.168.0.0 0.0.0.255
 ip nat inside source list 1 interface Serial0/3/0 overload
 ```
 
+### 5. Criar uma rota estática default interface externa
+
+```plaintext
+ip route 0.0.0.0 0.0.0.0 Serial0/3/0
+```
+
 - **ip nat inside source list 1:** Define a lista de IPs privados que serão traduzidos.
 - **interface Serial0/3/0:** Utiliza o IP da interface pública como endereço NAT.
 - **overload:** Permite que vários endereços privados compartilhem o mesmo IP público usando diferentes portas.
 
-### 5. Verificação e Teste
+### 6. Verificação e Teste
 
 #### Verificar a Configuração do NAT
 Use os seguintes comandos para verificar se o NAT está funcionando corretamente:
@@ -167,7 +173,125 @@ Use os seguintes comandos para verificar se o NAT está funcionando corretamente
 show ip nat statistics
 ```
 
-### 6. Salvar a Configuração
+### 7. Salvar a Configuração
+```plaintext
+write memory
+```
+
+---
+
+## Configuração das Interfaces em CTA
+
+### 1. Acesse o Modo de Configuração Global
+
+### 2. Configure as Interfaces
+
+#### Configurar a Interface GigabitEthernet0/0 (Rede Privada - Inside)
+```plaintext
+interface GigabitEthernet0/0
+ip address 192.168.0.1 255.255.255.0
+ip nat inside
+no shutdown
+description Rede Privada (Inside)
+```
+
+#### Configurar a Interface Serial0/3/0 (Rede Pública - Outside)
+```plaintext
+interface Serial0/3/0
+ip address 180.1.4.2 255.255.255.192
+ip nat outside
+no shutdown
+description Rede Pública (Outside)
+```
+
+### 3. Criar uma ACL para Definir os Endereços IP Privados
+
+#### Crie uma lista de controle de acesso (ACL) para especificar os IPs da rede 192.168.0.0/24 que serão traduzidos:
+```plaintext
+access-list 1 permit 192.168.0.0 0.0.0.255
+```
+
+### 4. Configurar o NAT Dinâmico (Overload)
+
+#### Configure o NAT dinâmico com sobreposição (PAT - Port Address Translation) para traduzir os endereços privados da rede 192.168.0.0/24 para o endereço IP público da interface Serial0/3/0:
+```plaintext
+ip nat inside source list 1 interface Serial0/3/0 overload
+```
+
+### 5. Criar uma rota estática default interface externa
+
+```plaintext
+ip route 0.0.0.0 0.0.0.0 Serial0/3/0
+```
+
+### 6. Verificação e Teste
+
+#### Verificar a Configuração do NAT
+Use os seguintes comandos para verificar se o NAT está funcionando corretamente:
+```plaintext
+show ip nat statistics
+```
+
+### 7. Salvar a Configuração
+```plaintext
+write memory
+```
+
+---
+
+## Configuração das Interfaces em SPO
+
+### 1. Acesse o Modo de Configuração Global
+
+### 2. Configure as Interfaces
+
+#### Configurar a Interface GigabitEthernet0/0 (Rede Privada - Inside)
+```plaintext
+interface GigabitEthernet0/0
+ip address 192.168.0.1 255.255.255.0
+ip nat inside
+no shutdown
+description Rede Privada (Inside)
+```
+
+#### Configurar a Interface Serial0/3/0 (Rede Pública - Outside)
+```plaintext
+interface Serial0/3/0
+ip address 180.1.2.2 255.255.255.192
+ip nat outside
+no shutdown
+description Rede Pública (Outside)
+```
+
+### 3. Criar uma ACL para Definir os Endereços IP Privados
+
+#### Crie uma lista de controle de acesso (ACL) para especificar os IPs da rede 192.168.0.0/24 que serão traduzidos:
+```plaintext
+access-list 1 permit 192.168.0.0 0.0.0.255
+```
+
+### 4. Configurar o NAT Dinâmico (Overload)
+
+#### Configure o NAT dinâmico com sobreposição (PAT - Port Address Translation) para traduzir os endereços privados da rede 192.168.0.0/24 para o endereço IP público da interface Serial0/3/0:
+```plaintext
+ip nat inside source list 1 interface Serial0/3/0 overload
+```
+
+### 5. Criar uma rota estática default interface externa
+
+```plaintext
+ip route 0.0.0.0 0.0.0.0 Serial0/3/0
+```
+
+### 6. Verificação e Teste
+
+#### Verificar a Configuração do NAT
+Use os seguintes comandos para verificar se o NAT está funcionando corretamente:
+```plaintext
+show ip nat statistics
+```
+
+### 7. Salvar a Configuração
 ```plaintext
 write memory
 ```
